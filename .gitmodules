@@ -1,0 +1,3 @@
+[submodule "htdocs/dolibarr-19.0.1/.server"]
+	path = htdocs/dolibarr-19.0.1/.server
+	url = https://github.com/Dolibarr/dolibarr.git
