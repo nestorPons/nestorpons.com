@@ -15,7 +15,7 @@ export default defineAppConfig({
     bio: `
     Hola Mundo! Soy un desarrollador de aplicaciones web con formación como Técnico Superior en Desarrollo de Aplicaciones Web, 
     residente en Castellón de la Plana. Nacido en 1978, 
-    tengo experiencia en programación en varios lenguajes incluyendo PHP, Python, JavaScript, HTML, Solidity, Go, y SQL, 
+    tengo experiencia con varios lenguajes de programación como PHP, Python, Java, JavaScript, HTML, Solidity, Go, y SQL, 
     además de trabajar con tecnologías como Laravel, Node.js, y bases de datos como MySQL, MongoDB, Postgres y  LiteSQL. 
     También poseo conocimientos en Hadoop, BigData, MachineLearning, Redes Neuronales. 
     Trabajo como freelancer implicandome seriamente en cada proyecto que emprendo 
