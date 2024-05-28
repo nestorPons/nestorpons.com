@@ -1,0 +1,9 @@
+@include("components.buttons.template",[
+    "class"=>$class??null,
+    "icon"=>"xmark",
+    "color"=>"danger",
+    "message"=>$message??null,
+    "function"=>$function??null,
+    "label"=>"Cancel",
+    "closeModal"=>$modal??null
+    ])

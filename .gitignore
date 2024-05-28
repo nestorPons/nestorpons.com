@@ -1,75 +1,20 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
-
-# Node dependencies
-node_modules
-
-# Logs
-logs
-*.log
-
-# Misc
-.DS_Store
-.fleet
-.idea
-
-# Local env files
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
 .env
-.env.*
-!.env.example
-
-# Composer
-.composer
-vendor/*
-!*/vendor/*
-
-# Sass
-.sass-cache
-
-# Grav Specific
-backup/*
-!backup/.*
-cache/*
-!cache/.*
-assets/*
-!assets/.*
-logs/*
-!logs/.*
-images/*
-!images/.*
-user/accounts/*
-!user/accounts/.*
-user/data/*
-!user/data/.*
-user/plugins/*
-!user/plugins/.*
-user/themes/*
-!user/themes/.*
-user/**/config/security.yaml
-
-# Environments
-.env
-.gravenv
-
-# OS Generated
-.DS_Store*
-ehthumbs.db
-Icon?
-Thumbs.db
-*.swp
-
-# phpstorm
-.idea/*
-
-# testing stuff
-tests/_output/*
-tests/_support/_generated/*
-tests/cache/*
-tests/error.log
-system/templates/testing/*
-/user/config/versions.yaml
+.env.backup
+.env.production
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+.server

@@ -1,0 +1,9 @@
+@include("components.buttons.template",[
+    "icon"=>"floppy-disk",
+    "color"=>"success",
+    "class"=>$class??null,
+    "message"=>$message??null,
+    "function"=>$function??null,
+    "label"=>$label??"Save",
+    "closeModal"=>$modal??null
+])

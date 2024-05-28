@@ -1,0 +1,29 @@
+:root{
+    --main-color-ligth: #1697B4;
+    --main-color-dark: #0E6278;
+}
+
+button, input:not([type="text"]):not([type="number"]):not([type="email"]):not([type="password"]), select, textarea{
+    cursor: pointer;
+}
+
+.btn {
+    margin-left: 0.5rem;
+}
+html{
+    body{
+
+        @media (prefers-color-scheme: dark){
+            .dark\:bg-gray-900{
+                background: rgb(14,98,120);
+                background: linear-gradient(90deg, rgba(22,151,180,1) 0%, rgba(14,98,120,1) 30%, rgba(14,98,120,1) 70%, rgba(22,151,180,1) 100%);
+            }
+            input{
+                background: white !important ;
+                color: #333 !important;
+            }
+
+        }
+    }
+    
+}
