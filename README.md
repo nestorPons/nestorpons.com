@@ -10,8 +10,8 @@ Landing + portfolio personal. Backend mínimo en Go que sirve estático y expone
 - `main.go` — estático (`SERVE_DIR`) + registro `/api/components/*`
 - `components/` — `registry.go` + 1 carpeta por componente (`*.go` + `*.json` + `*.html`)
   - `skills` / `projects` / `experience` — leen `*.json`, renderizan `*.html`
-  - `contact` — `GET` sirve `form.html`, `POST` verifica Turnstile y envía por SMTP
-- `public_html/` — `index.html` + `assets/` (`main.js`, `translator.js`, `styles.css`, `images/`, `cv.pdf`)
+  - `contact` — `GET` sirve `form.html`, `POST` exige checkbox privacidad + Turnstile y envía por SMTP
+- `public_html/` — `index.html`, `privacidad.html` + `assets/` (`main.js`, `translator.js`, `styles.css`, `images/`, `cv.pdf`)
 - `Dockerfile` — multi-stage `golang:1.22-alpine` → `alpine:3.19`
 - `docker-compose.yml` — servicio + labels Traefik
 
@@ -58,7 +58,7 @@ docker compose logs -f
 - Traefik: host `nestorpons.com`, entrypoints `web,websecure`, `certresolver=myresolver`.
 - Volúmenes: `./public_html:/var/www/html`.
 
-## Seguridad antes de subir a GitHub
+## Seguridad
 
-- `docker-compose.yml` contiene `SMTP_*` y `TURNSTILE_SECRET` en claro → mover a `.env` y no commitear.
-- Añadir `.gitignore`: `.env`, `*.log`, binarios (`server`).
+- Secretos (`SMTP_*`, `TURNSTILE_SECRET`) solo en `.env` local (ignorado); el repo lleva `.env.example`.
+- Nunca commitear `.env`.

@@ -23,6 +23,12 @@
         <label for="message" data-i18n>Mensaje</label>
         <textarea id="message" name="message" rows="5" placeholder="Cuéntame tu proyecto..." data-i18n-attr="placeholder" required></textarea>
       </div>
+      <div class="form-group privacy-check">
+        <label for="privacy">
+          <input type="checkbox" id="privacy" name="privacy" value="on" required />
+          <span>Acepto la <a href="/privacidad.html" target="_blank" rel="noopener">política de privacidad</a></span>
+        </label>
+      </div>
       <button type="submit" class="btn" id="submitBtn" data-i18n>Enviar mensaje</button>
       <div id="formFeedback"></div>
     </form>

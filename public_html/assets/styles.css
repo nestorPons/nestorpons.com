@@ -362,6 +362,11 @@ footer .footer-tech{
     align-items: center;
 }
 
+footer .footer-legal a{
+    color:var(--muted);
+    font-size:.85rem;
+}
+
 .btn {
     display: inline-block;
     margin-top: 30px;
@@ -472,6 +477,69 @@ footer .footer-tech{
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--ink, #0f0f0f);
+}
+
+.privacy-check label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.privacy-check input[type="checkbox"] {
+  margin-top: 0.2rem;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.privacy-check a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.legal {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 7rem 0 4rem;
+}
+
+.legal h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.legal .legal-updated {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.legal h2 {
+  font-size: 1.3rem;
+  margin: 2rem 0 0.75rem;
+  color: var(--accent);
+}
+
+.legal p,
+.legal li {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.legal ul {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.legal .btn {
+  margin-top: 2rem;
 }
  
 #submitBtn:disabled {

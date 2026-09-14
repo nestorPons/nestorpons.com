@@ -27,6 +27,7 @@ type form struct {
 	Name           string `json:"name"`
 	Email          string `json:"email"`
 	Message        string `json:"message"`
+	Privacy        string `json:"privacy"`
 	RecaptchaToken string `json:"cf-turnstile-response"`
 }
 
@@ -79,6 +80,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if f.Privacy != "on" && f.Privacy != "true" && f.Privacy != "1" && f.Privacy != "yes" {
+		htmlError(w, http.StatusBadRequest, "Debes aceptar la política de privacidad")
+		return
+	}
+
 	ok, err := verifyRecaptcha(f.RecaptchaToken)
 	if err != nil || !ok {
 		log.Printf("reCaptcha failed: %v", err)
@@ -124,6 +130,7 @@ func parseForm(r *http.Request) (form, error) {
 	f.Name = r.FormValue("name")
 	f.Email = r.FormValue("email")
 	f.Message = r.FormValue("message")
+	f.Privacy = r.FormValue("privacy")
 	f.RecaptchaToken = r.FormValue("cf-turnstile-response")
 	return f, nil
 }
