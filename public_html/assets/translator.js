@@ -1,36 +1,18 @@
 let currentTranslator = null;
 let currentLang = 'es'; // Idioma base en el HTML
 
-// Comprobar soporte e inicializar la visibilidad del selector al cargar el DOM
-document.addEventListener('DOMContentLoaded', async () => {
-    const langSwitch = document.getElementById('lang-switch');
-    if (!langSwitch) return;
-
-    // Verificar si la Translation API (Chrome AI / On-Device Spec) está presente
-    if (typeof window !== 'undefined' && 'Translator' in window) {
-        try {
-            const availability = await window.Translator.availability({
-                sourceLanguage: 'es',
-                targetLanguage: 'en',
-            });
-
-            // Solo mostrar si el soporte y la descarga/modelo están disponibles
-            if (availability && availability !== 'no') {
-                langSwitch.classList.add('is-supported');
-            }
-        } catch (err) {
-            console.warn("Translation API no disponible en este navegador:", err);
-        }
-    }
-});
-
 // Cambiar idioma y actualizar la clase activa de los botones
 async function setLanguage(lang) {
     if (currentLang === lang && currentTranslator) return;
-    
+
+    const translator = await getTranslator(lang);
+    if (lang !== 'es' && !translator) {
+        return;
+    }
+
     currentLang = lang;
     localStorage.setItem('preferredLang', lang);
-    currentTranslator = await getTranslator(lang);
+    currentTranslator = translator;
 
     const buttons = document.querySelectorAll('#lang-switch .lang-btn');
     buttons.forEach(btn => {
@@ -56,7 +38,7 @@ async function getTranslator(targetLang) {
             targetLanguage: targetLang,
         });
 
-        if (availability === 'no') return null;
+        if (availability === 'no' || availability === 'unavailable') return null;
 
         return await window.Translator.create({
             sourceLanguage: 'es',
@@ -64,6 +46,8 @@ async function getTranslator(targetLang) {
         });
     } catch (err) {
         console.error("Error inicializando Translator API:", err);
+        const button = document.querySelector(`[onclick="setLanguage('${targetLang}')"]`);
+        if (button) button.hidden = true;
         return null;
     }
 }
@@ -129,19 +113,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Verificar si la Translation API (Chrome AI / On-Device Spec) está presente
     if (typeof window !== 'undefined' && 'Translator' in window) {
         try {
-            const availability = await window.Translator.availability({
-                sourceLanguage: 'es',
-                targetLanguage: 'en',
-            });
+            const [englishAvailability, catalanAvailability] = await Promise.all([
+                window.Translator.availability({
+                    sourceLanguage: 'es',
+                    targetLanguage: 'en',
+                }),
+                window.Translator.availability({
+                    sourceLanguage: 'es',
+                    targetLanguage: 'ca',
+                }),
+            ]);
 
-            // Solo mostrar si el soporte y la descarga/modelo están disponibles
-            if (availability && availability !== 'no') {
+            const availableLanguages = {
+                en: !['no', 'unavailable'].includes(englishAvailability),
+                ca: !['no', 'unavailable'].includes(catalanAvailability),
+            };
+
+            // Mostrar el selector si al menos un idioma de destino está disponible.
+            if (availableLanguages.en || availableLanguages.ca) {
                 langSwitch.classList.add('is-supported');
-                
+
+                Object.entries(availableLanguages).forEach(([lang, isAvailable]) => {
+                    const button = langSwitch.querySelector(`[onclick="setLanguage('${lang}')"]`);
+                    if (button) button.hidden = !isAvailable;
+                });
+
                 // Comprobar si hay un idioma guardado previamente
                 const savedLang = localStorage.getItem('preferredLang');
                 // Si existe y no es el idioma base ('es'), aplicarlo automáticamente
-                if (savedLang && savedLang !== 'es') {
+                if (savedLang && savedLang !== 'es' && availableLanguages[savedLang]) {
                     setLanguage(savedLang);
                 }
             }

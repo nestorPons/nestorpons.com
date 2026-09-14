@@ -4,8 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="Néstor Pons | Full Stack Developer" />
-    <meta property="og:description" content="Portfolio de Néstor Pons, Full Stack Developer." />
-    <meta property="og:image" content="https://nestorpons.com/assets/images/profile.webp" />
+    <meta
+      property="og:description"
+      content="Portfolio de Néstor Pons, Full Stack Developer."
+    />
+    <meta
+      property="og:image"
+      content="https://nestorpons.com/assets/images/profile.webp"
+    />
     <meta property="og:url" content="https://nestorpons.com" />
     <meta property="og:type" content="website" />
     <title>Néstor Pons | Full Stack Developer</title>
@@ -73,6 +79,13 @@
                 >
                   EN - English
                 </button>
+                <button
+                  type="button"
+                  class="lang-btn"
+                  onclick="setLanguage('ca')"
+                >
+                  CA - Catalá
+                </button>
               </div>
             </div>
           </div>
@@ -90,19 +103,22 @@
         <div id="particles-container"></div>
 
         <div class="avatar">
-          <img src="assets/images/profile.webp" alt="Profile" />
+          <!-- <img src="assets/images/profile.webp" alt="Profile" />-->
+          <video autoplay muted playsinline preload="metadata">
+            <source src="assets/videos/greeting.webm" type="video/webm" />
+            <source src="assets/videos/greeting.mp4" type="video/mp4" />
+          </video>
         </div>
 
         <h1>Néstor Pons</h1>
 
-        <h2>Full Stack Developer · IA · APIs · Laravel · GO</h2>
+        <h2>Full Stack Developer · IA · Automatización · Integración</h2>
+
+        <p data-i18n>Orquesto soluciones digitales para resolver necesidades reales.</p>
 
         <p data-i18n>
-          Orquesto soluciones digitales con IA.
-        </p>
-        
-        <p data-i18n>
-         Resuelvo necesidades reales mediante automatización, integración de sistemas y desarrollo a medida.
+          Automatización, integración de
+          sistemas y desarrollo a medida.
         </p>
         <a href="#projects" class="btn" data-i18n> Ver proyectos </a>
 
@@ -186,14 +202,14 @@
 
     <footer>
       <div class="container">
-        <p>
-          © 2026 Néstor Pons · Full Stack Developer.
-        </p>
+        <p>© 2026 Néstor Pons · Full Stack Developer.</p>
         <p class="footer-legal">
           <a href="/privacidad.html" data-i18n>Política de privacidad</a>
         </p>
         <p class="footer-tech">
-          <span style="padding-right: 0.5rem;" data-i18n>Nueva generación de backends con </span><i class="fa-brands fa-golang"></i>
+          <span style="padding-right: 0.5rem" data-i18n
+            >Nueva generación de backends con </span
+          ><i class="fa-brands fa-golang"></i>
         </p>
       </div>
     </footer>
