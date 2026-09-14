@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  nestorgo-landing:
+    build: .
+    container_name: nestorgo-landing
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - PORT=80
+      - SERVE_DIR=/var/www/html
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_TO=${SMTP_TO}
+      - TURNSTILE_SECRET=${TURNSTILE_SECRET}
+
+    volumes:
+      - ./public_html:/var/www/html
+      - ./components:/app/components
+    networks:
+      - traefik-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-net"
+      - "traefik.http.routers.nestorgo.rule=Host(`nestorpons.com`)"
+      - "traefik.http.routers.nestorgo.entrypoints=web,websecure"
+      - "traefik.http.routers.nestorgo.tls=true"
+      - "traefik.http.routers.nestorgo.tls.certresolver=myresolver"
+      - "traefik.http.services.nestorgo.loadbalancer.server.port=80"
+
+networks:
+  traefik-net:
+    external: true

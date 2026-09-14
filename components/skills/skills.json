@@ -1,0 +1,22 @@
+[
+    { "name": "Laravel", "icon": "fa-brands fa-laravel", "level": 95 },
+    { "name": "PHP", "icon": "fa-brands fa-php", "level": 95 },
+    { "name": "Go", "icon": "fa-brands fa-golang", "level": 45 },
+    { "name": "JavaScript", "icon": "fa-brands fa-js", "level": 80 },
+    { "name": "HTML5", "icon": "fa-brands fa-html5", "level": 90 },
+    { "name": "CSS3", "icon": "fa-brands fa-css3-alt", "level": 90 },
+    { "name": "MySQL", "icon": "fa-solid fa-database", "level": 85 },
+    { "name": "Git", "icon": "fa-brands fa-git-alt", "level": 80 },
+    { "name": "Docker", "icon": "fa-brands fa-docker", "level": 70 },
+    { "name": "Linux", "icon": "fa-brands fa-linux", "level": 75 },
+    { "name": "Nginx", "icon": "fa-solid fa-server", "level": 60 },
+    { "name": "Apache", "icon": "fa-solid fa-server", "level": 80 },
+    { "name": "WordPress", "icon": "fa-brands fa-wordpress", "level": 95 },
+    { "name": "Prestashop", "icon": "fa-solid fa-cart-shopping", "level": 75 },
+    { "name": "Odoo / ERP", "icon": "fa-solid fa-gears", "level": 40 },
+    { "name": "OpenAI", "icon": "fa-solid fa-robot", "level": 80 },
+    { "name": "MongoDB", "icon": "fa-solid fa-leaf", "level": 65 },
+    { "name": "API REST", "icon": "fa-solid fa-plug", "level": 95 },
+    { "name": "Python", "icon": "fa-brands fa-python", "level": 80 },
+    { "name": "Servers", "icon": "fa-solid fa-server", "level": 85 }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "liderdisc",
+    "title": "Liderdisc",
+    "description": "Desarrollo Laravel con test de personalidad, gestión de usuarios y API REST segura.",
+    "url": "https://liderdisc.com",
+    "tecs": ["Laravel", "API REST", "Autenticación", "Gestión de usuarios"], 
+    "logo": {
+      "src": "https://liderdisc.com/images/logo.png",
+      "alt": "Logo Liderdisc",
+      "class": ""
+    }
+  },
+  {
+    "id": "palauvalencia",
+    "title": "Palau Valencia",
+    "description": "Pagina web del Palau de la Música de Valencia.",
+    "url": "https://palauvalencia.com",
+    "tecs": ["WordPress", "Diseño web", "SEO", "Plugins personalizados"],
+    "logo": {
+      "src": "https://palauvalencia.com/wp-content/uploads/2025/10/Palau_26_Negro_100.png",
+      "alt": "Logo Palau Valencia",
+      "class": "color-opposite"
+    }
+  },
+  {
+    "id": "pcs-gaming",
+    "title": "PCS Gaming",
+    "description": "Prestashop conectado mediante API REST a proveedor dropshipping.",
+    "url": "https://pcsgaming.es",
+    "tecs": ["Prestashop", "API REST", "Dropshipping", "E-commerce"],
+    "logo": {
+      "src": "https://pcsgaming.es/img/logo-1744793308.jpg",
+      "alt": "Logo PCS Gaming",
+      "class": ""
+    }
+  },
+  {
+    "id": "urbanvillage",
+    "title": "Urban Village",
+    "description": "Pagina web de Urban Village hecha en wordpress con diseño elegante.",
+    "url": "https://urbanvillage.com",
+    "tecs": ["WordPress", "Diseño web", "SEO", "Plugins personalizados"],
+    "logo": {
+      "src": "https://ecourbanvillage.es/wp-content/uploads/2025/03/logo-ecovillage-vertical-nuevo-150x99.png",
+      "alt": "Logo Urban Village",
+      "class": ""
+    }
+  },
+  {
+    "id": "BusinessExtraTaxBundle",
+    "title": "Plugin kimai",
+    "description": "Plugin para kimai que permite añadir un impuesto extra a los productos.",
+    "url": "https://github.com/nestorPons/BusinessExtraTaxBundle",
+    "tecs": ["Symfony", "php", "composer"],
+    "logo": {
+      "src": "https://www.kimai.org/images/kimai_logo_48.webp",
+      "alt": "Logo Business Extra Tax Bundle",
+      "class": ""
+    }
+  },
+    {
+    "id": "TPVON",
+    "title": "Tpv Online",
+    "description": "Una aplicación para terminales de punto de venta de software libre.",
+    "url": "https://github.com/nestorPons/TPVON",
+    "tecs": ["php", "Docker", "MariaDB", "js vanilla"],
+    "logo": {
+      "src": "https://github.com/nestorPons/TPVON/raw/master/htdocs/tpv/img/logo.png",
+      "alt": "Logo Tpv Online",
+      "class": ""
+    }
+  }
+]

@@ -1,0 +1,17 @@
+{{if .Ok}}
+<div class="feedback-box ok">
+  <div class="feedback-icon"><i class="fas fa-circle-check"></i></div>
+  <div class="feedback-text">
+    <span class="feedback-title"  data-i18n>¡Mensaje enviado!</span>
+    <span class="feedback-sub"  data-i18n>Te responderé lo antes posible.</span>
+  </div>
+</div>
+{{else}}
+<div class="feedback-box error">
+  <div class="feedback-icon"><i class="fas fa-circle-xmark"></i></div>
+  <div class="feedback-text">
+    <span class="feedback-title" data-i18n>Error al enviar</span>
+    <span class="feedback-sub" data-i18n>{{.Error}}</span>
+  </div>
+</div>
+{{end}}

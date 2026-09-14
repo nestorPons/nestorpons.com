@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Néstor Pons | Full Stack Developer" />
+    <meta property="og:description" content="Portfolio de Néstor Pons, Full Stack Developer." />
+    <meta property="og:image" content="https://nestorpons.com/assets/images/profile.webp" />
+    <meta property="og:url" content="https://nestorpons.com" />
+    <meta property="og:type" content="website" />
+    <title>Néstor Pons | Full Stack Developer</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"
+      integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad"
+      async
+      defer
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav id="main-menu">
+          <div class="logo">Néstor<span>Pons</span>.com</div>
+
+          <div class="menu">
+            <a href="#about" data-i18n>Perfil</a>
+            <a href="#projects" data-i18n>Proyectos</a>
+            <a href="#experience" data-i18n>Experiencia</a>
+            <a href="#skills" data-i18n>Tecnologías</a>
+            <a href="#contact" data-i18n>Contacto</a>
+            <!-- Switcher de Idiomas -->
+            <div
+              id="lang-switch"
+              class="lang-switch"
+              aria-label="Seleccionar idioma"
+            >
+              <button type="button" class="lang-toggle" aria-expanded="false">
+                <i class="fa-solid fa-globe"></i>
+                <span data-i18n>Idioma</span>
+                <i
+                  class="fa-solid fa-chevron-down"
+                  style="font-size: 0.8em"
+                ></i>
+              </button>
+
+              <div class="lang-dropdown">
+                <button
+                  type="button"
+                  class="lang-btn active"
+                  onclick="setLanguage('es')"
+                >
+                  ES - Español
+                </button>
+                <button
+                  type="button"
+                  class="lang-btn"
+                  onclick="setLanguage('en')"
+                >
+                  EN - English
+                </button>
+              </div>
+            </div>
+          </div>
+          <button class="hamburger" id="hamburger" aria-label="Menú">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero" id="about">
+      <div class="container">
+        <div id="particles-container"></div>
+
+        <div class="avatar">
+          <img src="assets/images/profile.webp" alt="Profile" />
+        </div>
+
+        <h1>Néstor Pons</h1>
+
+        <h2>Full Stack Developer · IA · APIs · Laravel · GO</h2>
+
+        <p data-i18n>
+          Orquesto soluciones digitales con IA.
+        </p>
+        
+        <p data-i18n>
+         Resuelvo necesidades reales mediante automatización, integración de sistemas y desarrollo a medida.
+        </p>
+        <a href="#projects" class="btn" data-i18n> Ver proyectos </a>
+
+        <div class="socials">
+          <a href="https://github.com/nestorpons" target="_blank"
+            ><i class="fa-brands fa-github"></i
+          ></a>
+          <a
+            href="https://www.linkedin.com/in/n%C3%A9stor-pons-portol%C3%A9s-61381b81/"
+            target="_blank"
+            ><i class="fa-brands fa-linkedin"></i
+          ></a>
+          <a href="https://wa.me/+34660291797" target="_blank"
+            ><i class="fa-brands fa-whatsapp"></i
+          ></a>
+          <a href="assets/cv.pdf" target="_blank"
+            ><i class="fa-solid fa-file-lines"></i
+          ></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-title">
+          <h2 data-i18n>Proyectos destacados</h2>
+          <p data-i18n>Experiencia real en producción</p>
+        </div>
+        <div class="grid projects">
+          <div
+            class="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]"
+            hx-get="/api/components/projects"
+            hx-trigger="intersect once"
+            hx-swap="innerHTML"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-title">
+          <h2 data-i18n>Experiencia</h2>
+          <p data-i18n>Trayectoria profesional</p>
+        </div>
+
+        <div
+          hx-get="/api/components/experience"
+          hx-trigger="intersect once"
+          hx-swap="innerHTML"
+        >
+          <div class="text-center opacity-50 py-10" data-i18n>
+            Cargando trayectoria...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-title">
+          <h2 data-i18n>Tecnologías</h2>
+          <p data-i18n>Herramientas principales</p>
+        </div>
+        <div
+          class="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]"
+          hx-get="/api/components/skills"
+          hx-trigger="intersect once"
+          hx-swap="innerHTML"
+        ></div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div
+        hx-get="/api/components/contact"
+        hx-trigger="load"
+        hx-swap="innerHTML"
+      ></div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>
+          © 2026 Néstor Pons · Full Stack Developer.
+        </p>
+        <p class="footer-tech">
+          <span style="padding-right: 0.5rem;" data-i18n>Nueva generación de backends con </span><i class="fa-brands fa-golang"></i>
+        </p>
+      </div>
+    </footer>
+
+    <script src="assets/main.js"></script>
+    <!-- Script de la Translation API -->
+    <script src="assets/translator.js"></script>
+  </body>
+</html>

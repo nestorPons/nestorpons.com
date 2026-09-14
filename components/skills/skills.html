@@ -1,0 +1,125 @@
+{{range .}}
+<div class="tech">
+    <div class="tech-header">
+        <div>
+            <i class="{{.Icon}}"></i>
+            <span>{{.Name}}</span>
+        </div>
+        <span class="tech-percent">{{.Level}}%</span>
+    </div>
+    <div class="tech-progress">
+        <div class="progress-bar"
+            style="width:0;min-width:45px"
+            data-level="{{.Level}}">
+        </div>
+    </div>
+</div>
+{{end}}
+<style>
+.tech {
+    background: rgba(16, 37, 61, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.tech-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.tech-header > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tech-header i {
+    color: var(--accent);
+    font-size: 1.5rem;
+    width: 24px;
+    text-align: center;
+}
+
+.tech-header span {
+    font-size: 1rem;
+}
+
+.tech-percent {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.tech-progress {
+    height: 16px;
+    width: 100%;
+    border-radius: 20px;
+    background: rgba(16, 37, 61, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    overflow: visible;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 20px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    position: relative;
+    transition: width 1.5s ease-out;
+}
+
+.progress-bar::before {
+    content: 'EXP';
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 50px;
+    background: rgba(16, 37, 61, 0.9);
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    text-shadow: 0 0 4px var(--accent);
+    box-shadow: 0 0 8px var(--accent), inset 0 0 4px var(--accent);
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.progress-bar::before {
+    content: 'EXP';
+    position: absolute;
+    right: 4px;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 50px;
+    background: rgba(16, 37, 61, 0.9);
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    text-shadow: 0 0 4px var(--accent);
+    box-shadow: 0 0 8px var(--accent), inset 0 0 4px var(--accent);
+    line-height: 1;
+    text-transform: uppercase;
+    text-align: center;
+}
+</style>
+<script>
+(function () {
+    document.querySelectorAll('.progress-bar').forEach((bar, i) => {
+        setTimeout(() => {
+            bar.style.width = bar.dataset.level + '%';
+        }, i * 80);
+    });
+})();
+</script>

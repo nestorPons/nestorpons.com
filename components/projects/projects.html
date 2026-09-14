@@ -1,0 +1,185 @@
+{{range .}}
+<div class="card">
+    <a href="{{ .Url }}" target="_blank">
+        <div class="card-header">
+            <div class="logo-badge card-logo">
+                {{if .Logo.Src}}
+                <img src="{{ .Logo.Src }}" class="{{ .Logo.Class }}" alt="{{ .Logo.Alt }}" />
+                {{else}}
+                <span>{{ .Logo.Alt }}</span>
+                {{end}}
+            </div>
+            <h3>{{ .Title }}</h3>
+        </div>
+        <p data-i18n>{{ .Description }}</p>
+        <span class="link">{{ .Url }}</span>
+        <div class="tecs">
+            {{range .Tecs}}<span class="tec">{{ . }}</span>{{end}}
+        </div>
+    </a>
+</div>
+{{end}}
+
+<style>
+.projects {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.projects .card {
+    position: relative;
+    overflow: hidden;
+    background-color: #081320;
+    background-image:
+        linear-gradient(to right, rgba(59,227,139,0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59,227,139,0.06) 1px, transparent 1px),
+        radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(59,227,139,0.08) 0%, transparent 70%);
+    background-size: 32px 32px, 32px 32px, 100% 100%;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    backdrop-filter: blur(10px);
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+
+
+
+.projects .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(59,227,139,.3), transparent);
+    opacity: 0;
+    transition: opacity .4s;
+    pointer-events: none;
+}
+
+.projects .card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(59,227,139,.35);
+    box-shadow: 0 24px 48px rgba(0,0,0,.35);
+}
+
+.projects .card:hover::before {
+    opacity: 1.8;
+    transform: scale(1.2);
+}
+
+.projects .card:hover::after {
+    opacity: 1;
+}
+
+.projects .card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+}
+
+.projects .logo-badge {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    border: 1px solid rgba(59,227,139,.2);
+    background: rgba(59,227,139,.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.projects .logo-badge img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+.projects .logo-badge span {
+    width: 90%;
+    height: 90%;
+    font-size: 0.8rem;
+    font-family: var(--font-family);
+    text-align: center;
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.projects .card h3 {
+    font-family: var(--font-family-heading);
+    font-size: 1.35rem;
+    letter-spacing: .5px;
+    line-height: 1.1;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.projects .card p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: .875rem;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.projects .card .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: .8rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    opacity: .8;
+    transition: opacity .2s, gap .2s;
+    position: relative;
+    z-index: 1;
+}
+
+.projects .card .link:hover {
+    opacity: 1;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.projects .card .link::after {
+    content: '→';
+    font-size: .85rem;
+}
+
+.projects .card .tecs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+}
+
+.projects .card .tec {
+    font-size: .72rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.04);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    letter-spacing: .2px;
+}
+
+</style>
+<script>
+document.querySelectorAll('.projects .card').forEach(card => {
+    const x = Math.floor(Math.random() * 80) + 10;
+    const y = Math.floor(Math.random() * 80) + 10;
+    card.style.setProperty('--glow-x', x + '%');
+    card.style.setProperty('--glow-y', y + '%');
+});
+</script>

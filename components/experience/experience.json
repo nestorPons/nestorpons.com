@@ -1,0 +1,130 @@
+[
+    {
+        "type": "job",
+        "role": "Freelance Full Stack Developer",
+        "company": "Proyectos Propios & Clientes",
+        "period": "2022 - Presente",
+        "description": "Desarrollo integral de aplicaciones web a medida, soluciones de IA, integración de APIs y automatización de sistemas. Desarrollo de proyectos en producción como Aibotia, Liderdisc, Palau Valencia. etc... , migraciones críticas de sistemas ERP Odoo16 a Odoo18.",
+        "tags": ["Laravel", "PHP", "Go", "OpenAI API", "REST API", "WordPress", "MySQL", "Docker"]
+    },
+    {
+        "type": "education",
+        "role": "Detective Privado",
+        "company": "",
+        "period": "2023",
+        "description": "Curso de especialización oficial enfocado en el despliegue de modelos de IA, arquitecturas de Big Data, procesamiento de datos y automatización inteligente en entornos reales.",
+        "tags": ["IA", "Big Data", "Python", "Aprendizaje Automático"]
+    },
+    {
+        "type": "education",
+        "role": "Especialización en Inteligencia Artificial y Big Data",
+        "company": "CIDEAD",
+        "period": "2023",
+        "description": "Curso de especialización oficial enfocado en el despliegue de modelos de IA, arquitecturas de Big Data, procesamiento de datos y automatización inteligente en entornos reales.",
+        "tags": ["IA", "Big Data", "Python", "Aprendizaje Automático"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: Python 3.0",
+        "company": "OpenWebinars",
+        "period": "2022",
+        "description": "Formación especializada en los fundamentos avanzados del lenguaje Python, estructuras de datos y desarrollo de lógica eficiente.",
+        "tags": ["Python", "Backend"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: RESTful APIs with Python 3.0",
+        "company": "OpenWebinars",
+        "period": "2022",
+        "description": "Diseño, desarrollo y despliegue de APIs utilizando el ecosistema de Python, aplicando buenas prácticas de arquitectura REST.",
+        "tags": ["Python", "REST API", "Backend"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: Python Best Practices",
+        "company": "OpenWebinars",
+        "period": "2022",
+        "description": "Estudio y aplicación de estándares de código limpio (PEP 8), optimización de rendimiento y patrones de diseño en Python.",
+        "tags": ["Python", "Clean Code"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: Ethical Hacking with Python",
+        "company": "Udemy",
+        "period": "2021",
+        "description": "Desarrollo de scripts y herramientas personalizadas aplicadas a la ciberseguridad, auditoría de redes y análisis de vulnerabilidades.",
+        "tags": ["Python", "Seguridad", "Hacking"]
+    },
+    {
+        "type": "course",
+        "role": "IntelCon 2021 - Cyber Intelligence",
+        "company": "Ginsec",
+        "period": "2021",
+        "description": "Participación y formación técnica en el congreso especializado en ciberinteligencia, OSINT y análisis de amenazas.",
+        "tags": ["Ciberseguridad", "OSINT", "Inteligencia"]
+    },
+    {
+        "type": "education",
+        "role": "Técnico Superior en Desarrollo de Aplicaciones Web (DAW)",
+        "company": "CEEDCV",
+        "period": "2020",
+        "description": "Titulación oficial de Técnico Superior enfocada al desarrollo full-stack, diseño de bases de datos relacionales, despliegue de aplicaciones y entornos cliente/servidor.",
+        "tags": ["DAW", "Full Stack", "Base de datos", "Web Dev"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: Node.js & Express",
+        "company": "OpenWebinars",
+        "period": "2020",
+        "description": "Desarrollo de aplicaciones de servidor e infraestructura backend asíncrona utilizando el entorno de ejecución Node.js y el framework Express.",
+        "tags": ["Node.js", "Express", "Backend", "JavaScript"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: jQuery",
+        "company": "OpenWebinars",
+        "period": "2020",
+        "description": "Manipulación avanzada del DOM, gestión de eventos y animaciones en el lado del cliente utilizando la librería JavaScript.",
+        "tags": ["JavaScript", "jQuery", "Frontend"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: PHPUnit",
+        "company": "OpenWebinars",
+        "period": "2020",
+        "description": "Implementación de pruebas unitarias y automatizadas en entornos PHP para asegurar la estabilidad del código y flujos de integración continua (CI).",
+        "tags": ["PHP", "PHPUnit", "Testing", "TDD"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: Control de Versiones con Git",
+        "company": "MiriadaX",
+        "period": "2019",
+        "description": "Dominio de flujos de trabajo con Git, gestión de ramas, fusiones y resolución de conflictos en el desarrollo de software colaborativo.",
+        "tags": ["Git", "Version Control"]
+    },
+    {
+        "type": "job",
+        "role": "Systems Administrator & Web Developer",
+        "company": "Le Bouquet",
+        "period": "2010 - 2018",
+        "description": "Administración de sistemas e infraestructura interna. Desarrollo de aplicaciones propias, mantenimiento de la plataforma de e-commerce WooCommerce, automatización de catálogos y optimización SEO.",
+        "tags": ["Linux", "WooCommerce", "PHP", "SEO", "Administración de Sistemas"]
+    },
+    {
+        "type": "education",
+        "role": "Técnico Comercio",
+        "company": "CEEDCV",
+        "period": "2015",
+        "description": "Titulación técnica enfocada a la gestión comercial, administración de procesos logísticos y estrategias de negocio.",
+        "tags": ["Comercio", "Logistica", "Negocios"]
+    },
+    {
+        "type": "course",
+        "role": "Curso: Visual Basic",
+        "company": "Informática Provincial Castellonense",
+        "period": "Formación Base",
+        "description": "Fundamentos iniciales de programación y lógica de desarrollo de software utilizando el entorno y lenguaje de Visual Basic.",
+        "tags": ["Visual Basic", "Programación Básica"]
+    }
+]

@@ -1,0 +1,253 @@
+<div class="timeline-container">
+    <div class="timeline-line"></div>
+    
+    {{range .}}
+    <div class="timeline-item-wrapper">
+        
+        <div class="timeline-node-center">
+            <div class="timeline-icon">
+                {{if eq .Type "job"}}<i class="fa fa-briefcase"></i>{{end}}
+                {{if eq .Type "course"}}<i class="fa fa-graduation-cap"></i>{{end}}
+                {{if eq .Type "education"}}<i class="fa fa-award"></i>{{end}}
+                {{if eq .Type "specialization"}}<i class="fa fa-brain"></i>{{end}}
+                {{if eq .Type "conference"}}<i class="fa fa-users"></i>{{end}}
+                {{if eq .Type "project"}}<i class="fa fa-code"></i>{{end}}
+            </div>
+        </div>
+        
+        <span class="timeline-period" aria-label="{{.Period}}" data-i18n>{{.Period}}</span>
+        
+        <div class="timeline-card">
+            <h3 aria-label="{{.Role}}" data-i18n>{{.Role}}</h3>
+            <h4 aria-label="{{.Company}}" data-i18n>{{.Company}}</h4>
+            <p aria-label="{{.Description}}" data-i18n>{{.Description}}</p>
+            {{if .Tags}}
+            <div class="timeline-tags">
+                {{range .Tags}}<span>{{.}}</span>{{end}}
+            </div>
+            {{end}}
+        </div>
+    </div>
+    {{end}}
+</div>
+
+<style>
+.timeline-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 40px auto 0 auto;
+    padding: 20px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), var(--accent), rgba(255, 255, 255, 0.05));
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.timeline-item-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ── CONFIGURACIÓN CUANDO LA TARJETA VA A LA IZQUIERDA ── */
+.timeline-item-wrapper.left-item {
+    flex-direction: row; 
+}
+
+.left-item .timeline-card {
+    width: 44%;
+    margin-right: auto;
+    text-align: right;
+}
+
+.left-item .timeline-period {
+    left: calc(50% + 35px);
+    text-align: left;
+}
+
+.left-item .timeline-tags {
+    justify-content: flex-end;
+}
+
+/* ── CONFIGURACIÓN CUANDO LA TARJETA VA A LA DERECHA ── */
+.timeline-item-wrapper.right-item {
+    flex-direction: row-reverse; 
+}
+
+.right-item .timeline-card {
+    width: 44%;
+    margin-left: auto;
+    text-align: left;
+}
+
+.right-item .timeline-period {
+    right: calc(50% + 35px);
+    text-align: right;
+}
+
+.right-item .timeline-tags {
+    justify-content: flex-start;
+}
+
+/* ── CONTENEDOR CENTRAL FIJO (EL ESCUDO SIMÉTRICO) ── */
+.timeline-node-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* DISEÑO MINIMALISTA Y ELEGANTE DEL ICONO */
+.timeline-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #081320; /* Color exacto de tu fondo --bg */
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 0 0 4px #081320;
+}
+
+.timeline-icon i {
+    font-size: 16px;
+    color: var(--muted);
+    transition: all 0.4s ease;
+}
+
+/* Efecto al iluminarse la sección (Cuando se entra en el viewport) */
+.timeline-item-wrapper.reveal-visible .timeline-icon {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px #081320, 0 0 12px rgba(59, 227, 139, 0.25);
+}
+
+.timeline-item-wrapper.reveal-visible .timeline-icon i {
+    color: var(--accent);
+    text-shadow: 0 0 6px rgba(59, 227, 139, 0.4);
+}
+
+/* ── DISEÑO DE LA TARJETA Y FECHA ── */
+.timeline-card {
+    background: rgba(16, 37, 61, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 24px;
+    box-sizing: border-box;
+    
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+.timeline-period {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-family-heading); /* Usa "Antonio" */
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.15); /* Tono apagado futurista de fondo */
+    letter-spacing: 1px;
+    white-space: nowrap;
+    user-select: none;
+
+    opacity: 0;
+    transition: opacity 0.8s ease-out, color 0.8s ease-out;
+}
+
+/* Sincronización visual */
+.timeline-card.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-item-wrapper.reveal-visible .timeline-period {
+    opacity: 1;
+    color: rgba(255, 255, 255, 0.35); /* Se ilumina levemente sin competir con el texto */
+}
+
+.timeline-card h3 { font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.timeline-card h4 { font-size: 0.95rem; color: var(--accent); margin-bottom: 12px; }
+.timeline-card p { font-size: 0.9rem; line-height: 1.5; color: rgba(255, 255, 255, 0.75); }
+.timeline-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.timeline-tags span { font-size: 0.7rem; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 2px 6px; border-radius: 4px; color: rgba(255, 255, 255, 0.5); }
+
+/* ── RESPONSIVE PARA DISPOSITIVOS MÓVILES ── */
+@media (max-width: 768px) {
+    .timeline-line { left: 20px; transform: none; }
+    .timeline-item-wrapper { flex-direction: column !important; align-items: flex-start; padding-left: 55px; margin-bottom: 40px; }
+    
+    .timeline-node-center { left: 20px; top: 22px; transform: translateX(-50%); }
+    .timeline-icon { width: 34px; height: 34px; }
+    .timeline-icon i { font-size: 13px; }
+
+    .timeline-card { width: 100% !important; text-align: left !important; padding: 20px; }
+    .timeline-tags { justify-content: flex-start !important; }
+    
+    .timeline-period {
+        position: static;
+        transform: none;
+        margin-bottom: 8px;
+        opacity: 1 !important;
+        color: var(--accent) !important;
+        font-size: 1.3rem;
+    }
+}
+</style>
+
+<script>
+(function () {
+    const items = document.querySelectorAll('.timeline-item-wrapper');
+    items.forEach((item, index) => {
+        if (index % 2 === 0) {
+            item.classList.add('left-item');
+        } else {
+            item.classList.add('right-item');
+        }
+    });
+
+    setTimeout(() => {
+        const wrappers = document.querySelectorAll('.timeline-item-wrapper');
+        
+        if (!window.IntersectionObserver) {
+            wrappers.forEach(w => {
+                w.classList.add('reveal-visible');
+                w.querySelector('.timeline-card')?.classList.add('reveal-visible');
+            });
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                    entry.target.querySelector('.timeline-card')?.classList.add('reveal-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { 
+            rootMargin: '0px 0px -60px 0px', 
+            threshold: 0.05 
+        });
+
+        wrappers.forEach(w => observer.observe(w));
+    }, 60);
+})();
+</script>
