@@ -4,18 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="Néstor Pons | Full Stack Developer" />
-    <meta
-      property="og:description"
-      content="Portfolio de Néstor Pons, Full Stack Developer."
-    />
-    <meta
-      property="og:image"
-      content="https://nestorpons.com/assets/images/profile.webp"
-    />
+    <meta property="og:description" content="Portfolio de Néstor Pons, Full Stack Developer." />
+    <meta property="og:image" content="https://nestorpons.com/assets/images/profile.webp" />
     <meta property="og:url" content="https://nestorpons.com" />
     <meta property="og:type" content="website" />
     <title>Néstor Pons | Full Stack Developer</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"
       integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V"
@@ -35,68 +28,14 @@
       referrerpolicy="no-referrer"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
   <body>
-    <header>
-      <div class="container">
-        <nav id="main-menu">
-          <div class="logo">Néstor<span>Pons</span>.com</div>
-
-          <div class="menu">
-            <a href="#about" data-i18n>Perfil</a>
-            <a href="#projects" data-i18n>Proyectos</a>
-            <a href="#experience" data-i18n>Experiencia</a>
-            <a href="#skills" data-i18n>Tecnologías</a>
-            <a href="#contact" data-i18n>Contacto</a>
-            <!-- Switcher de Idiomas -->
-            <div
-              id="lang-switch"
-              class="lang-switch"
-              aria-label="Seleccionar idioma"
-            >
-              <button type="button" class="lang-toggle" aria-expanded="false">
-                <i class="fa-solid fa-globe"></i>
-                <span data-i18n>Idioma</span>
-                <i
-                  class="fa-solid fa-chevron-down"
-                  style="font-size: 0.8em"
-                ></i>
-              </button>
-
-              <div class="lang-dropdown">
-                <button
-                  type="button"
-                  class="lang-btn active"
-                  onclick="setLanguage('es')"
-                >
-                  ES - Español
-                </button>
-                <button
-                  type="button"
-                  class="lang-btn"
-                  onclick="setLanguage('en')"
-                >
-                  EN - English
-                </button>
-                <button
-                  type="button"
-                  class="lang-btn"
-                  onclick="setLanguage('ca')"
-                >
-                  CA - Catalá
-                </button>
-              </div>
-            </div>
-          </div>
-          <button class="hamburger" id="hamburger" aria-label="Menú">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </nav>
-      </div>
-    </header>
+    <div
+      hx-get="/api/components/header"
+      hx-trigger="load"
+      hx-swap="outerHTML"
+    ></div>
 
     <section class="hero" id="about">
       <div class="container">
@@ -105,22 +44,44 @@
         <div class="avatar">
           <!-- <img src="assets/images/profile.webp" alt="Profile" />-->
           <video autoplay muted playsinline preload="metadata">
-            <source src="assets/videos/greeting.webm" type="video/webm" />
-            <source src="assets/videos/greeting.mp4" type="video/mp4" />
+            <source src="assets/videos/greeting.webm" type="video/webm">
+            <source src="assets/videos/greeting.mp4" type="video/mp4">
           </video>
         </div>
 
         <h1>Néstor Pons</h1>
 
-        <h2>Full Stack Developer · IA · Automatización · Integración</h2>
-
-        <p data-i18n>Orquesto soluciones digitales para resolver necesidades reales.</p>
+        <h2>Full Stack Developer · IA · APIs · Automatización de procesos</h2>
 
         <p data-i18n>
-          Automatización, integración de
-          sistemas y desarrollo a medida.
+          Orquestacion de soluciones digitales mediante las nuevas tecnologias.
         </p>
-        <a href="#projects" class="btn" data-i18n> Ver proyectos </a>
+
+        <p data-i18n>
+         Resuelvo necesidades reales mediante automatización, integración de sistemas y desarrollo a medida.
+        </p>
+        <div class="tour-cta-wrap">
+          <a
+            id="btn-tour"
+            href="#"
+            class="btn mt-1 is-loading"
+            aria-busy="true"
+            aria-disabled="true"
+          >
+            <span data-i18n>Ver secretos de la web</span>
+            <span class="tour-loading" aria-hidden="true">
+              <i class="fa-solid fa-spinner fa-spin"></i> Cargando tour…
+            </span>
+          </a>
+
+          <div class="tour-cta" id="tour-cta" aria-hidden="true">
+            <span class="tour-cta-bubble" data-i18n>¡Haz clic aquí!</span>
+            <svg class="tour-cta-arrow" viewBox="0 0 130 50" aria-hidden="true">
+              <path class="tour-arrow" d="M124 26 C 98 20, 54 22, 14 32" />
+              <path class="tour-arrow-head" d="M36 24 L14 32 L34 42" />
+            </svg>
+          </div>
+        </div>
 
         <div class="socials">
           <a href="https://github.com/nestorpons" target="_blank"
@@ -140,7 +101,17 @@
         </div>
       </div>
     </section>
-
+    <section id="chat">
+      <div
+        hx-get="/api/components/chat"
+        hx-trigger="load"
+        hx-swap="innerHTML"
+      >
+        <div class="loading-placeholder" data-i18n>
+          Cargando asistente...
+        </div>
+      </div>
+    </section>
     <section id="projects">
       <div class="container">
         <div class="section-title">
@@ -149,7 +120,7 @@
         </div>
         <div class="grid projects">
           <div
-            class="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]"
+            class="projects-grid"
             hx-get="/api/components/projects"
             hx-trigger="intersect once"
             hx-swap="innerHTML"
@@ -170,7 +141,7 @@
           hx-trigger="intersect once"
           hx-swap="innerHTML"
         >
-          <div class="text-center opacity-50 py-10" data-i18n>
+          <div class="loading-placeholder" data-i18n>
             Cargando trayectoria...
           </div>
         </div>
@@ -184,7 +155,7 @@
           <p data-i18n>Herramientas principales</p>
         </div>
         <div
-          class="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]"
+          class="skills-grid"
           hx-get="/api/components/skills"
           hx-trigger="intersect once"
           hx-swap="innerHTML"
@@ -202,20 +173,26 @@
 
     <footer>
       <div class="container">
-        <p>© 2026 Néstor Pons · Full Stack Developer.</p>
-        <p class="footer-legal">
-          <a href="/privacidad.html" data-i18n>Política de privacidad</a>
-        </p>
         <p class="footer-tech">
-          <span style="padding-right: 0.5rem" data-i18n
-            >Nueva generación de backends con </span
-          ><i class="fa-brands fa-golang"></i>
+          <span style="padding-right: 0.5rem;" data-i18n>Nueva generación de páginas web con </span>
+            <i class="fa-htmx"></i>
+            <span class="footer-ampersand"> & </span>
+            <i class="fa-brands fa-golang"></i>
+        </p>
+        <p class="footer-legal">
+          <a href="/privacidad.html" data-i18n>Política de privacidad</a> ·
+          <a href="/condiciones.html" data-i18n>Términos y condiciones</a>
+        </p>
+        <p>
+          © 2026 Néstor Pons · Full Stack Developer.
         </p>
       </div>
     </footer>
 
-    <script src="assets/main.js"></script>
-    <!-- Script de la Translation API -->
-    <script src="assets/translator.js"></script>
+    <script src="assets/js/main.js"></script>
+    <!-- Script de la Translation API (servido por el componente header) -->
+    <script src="/api/components/header/translator.js"></script>
+    <!-- El tour se carga el último: hasta entonces el botón indica "Cargando tour…" -->
+    <script src="assets/js/tour.js" defer></script>
   </body>
 </html>

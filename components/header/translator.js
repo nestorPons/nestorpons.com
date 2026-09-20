@@ -1,28 +1,59 @@
 let currentTranslator = null;
 let currentLang = 'es'; // Idioma base en el HTML
 
-// Comprobar soporte e inicializar la visibilidad del selector al cargar el DOM
-document.addEventListener('DOMContentLoaded', async () => {
-    const langSwitch = document.getElementById('lang-switch');
-    if (!langSwitch) return;
+// Código de idioma declarado en el onclick de cada botón (p. ej. "fr").
+function langCodeOf(btn) {
+    const match = (btn.getAttribute('onclick') || '').match(/setLanguage\('([^']+)'\)/);
+    return match ? match[1] : null;
+}
 
-    // Verificar si la Translation API (Chrome AI / On-Device Spec) está presente
-    if (typeof window !== 'undefined' && 'Translator' in window) {
-        try {
-            const availability = await window.Translator.availability({
-                sourceLanguage: 'es',
-                targetLanguage: 'en',
-            });
-
-            // Solo mostrar si el soporte y la descarga/modelo están disponibles
-            if (availability && availability !== 'no') {
-                langSwitch.classList.add('is-supported');
-            }
-        } catch (err) {
-            console.warn("Translation API no disponible en este navegador:", err);
-        }
+// ¿Puede la Translation API traducir del español a este idioma?
+async function isLangAvailable(lang) {
+    if (lang === 'es') return true;
+    if (typeof window === 'undefined' || !('Translator' in window)) return false;
+    try {
+        const availability = await window.Translator.availability({
+            sourceLanguage: 'es',
+            targetLanguage: lang,
+        });
+        return !!availability && availability !== 'no';
+    } catch (err) {
+        return false;
     }
-});
+}
+
+// Oculta los idiomas que la Translation API no puede ofrecer y, si no queda
+// ninguno, oculta también el selector completo.
+async function refreshLangSwitch() {
+    const langSwitch = document.getElementById('lang-switch');
+    if (!langSwitch || langSwitch.dataset.langChecked === '1') return;
+    langSwitch.dataset.langChecked = '1';
+
+    const buttons = langSwitch.querySelectorAll('.lang-btn');
+    let available = 0;
+
+    for (const btn of buttons) {
+        const lang = langCodeOf(btn);
+        const ok = lang ? await isLangAvailable(lang) : false;
+        btn.hidden = !ok;
+        if (ok && lang !== 'es') available++;
+    }
+
+    langSwitch.classList.toggle('is-supported', available > 0);
+    if (available === 0) return;
+
+    // Aplicar el idioma guardado solo si sigue estando disponible.
+    const savedLang = localStorage.getItem('preferredLang');
+    if (savedLang && savedLang !== 'es') {
+        const savedBtn = Array.from(buttons).find(
+            (btn) => langCodeOf(btn) === savedLang && !btn.hidden
+        );
+        if (savedBtn) setLanguage(savedLang);
+    }
+}
+
+// Comprobar soporte e inicializar la visibilidad del selector al cargar el DOM
+document.addEventListener('DOMContentLoaded', refreshLangSwitch);
 
 // Cambiar idioma y actualizar la clase activa de los botones
 async function setLanguage(lang) {
@@ -98,30 +129,10 @@ document.body.addEventListener('htmx:afterSwap', async (evt) => {
         await translateAttributes(newAttrElements);
     }
 });
-// El header se inyecta por HTMX: activar el selector cuando aparezca.
-async function maybeEnableLangSwitch() {
-    const langSwitch = document.getElementById('lang-switch');
-    if (!langSwitch || langSwitch.classList.contains('is-supported')) return;
-    if (typeof window === 'undefined' || !('Translator' in window)) return;
-    try {
-        const availability = await window.Translator.availability({
-            sourceLanguage: 'es',
-            targetLanguage: 'en',
-        });
-        if (availability && availability !== 'no') {
-            langSwitch.classList.add('is-supported');
-            const savedLang = localStorage.getItem('preferredLang');
-            if (savedLang && savedLang !== 'es') {
-                setLanguage(savedLang);
-            }
-        }
-    } catch (err) {
-        console.warn("Translation API no disponible en este navegador:", err);
-    }
-}
-document.body.addEventListener('htmx:afterSwap', maybeEnableLangSwitch);
+// El header se inyecta por HTMX: filtrar los idiomas cuando aparezca.
+document.body.addEventListener('htmx:afterSwap', refreshLangSwitch);
 // Respaldo por si el swap ya ocurrió o el evento no llega.
-window.addEventListener('load', () => setTimeout(maybeEnableLangSwitch, 500));
+window.addEventListener('load', () => setTimeout(refreshLangSwitch, 500));
 // Cerrar dropdown al hacer clic fuera
 document.addEventListener('click', (e) => {
     const langSwitch = document.getElementById('lang-switch');
@@ -144,36 +155,6 @@ document.addEventListener('click', (e) => {
     );
 });
 
-
-// Comprobar soporte e inicializar la visibilidad del selector al cargar el DOM
-document.addEventListener('DOMContentLoaded', async () => {
-    const langSwitch = document.getElementById('lang-switch');
-    if (!langSwitch) return;
-
-    // Verificar si la Translation API (Chrome AI / On-Device Spec) está presente
-    if (typeof window !== 'undefined' && 'Translator' in window) {
-        try {
-            const availability = await window.Translator.availability({
-                sourceLanguage: 'es',
-                targetLanguage: 'en',
-            });
-
-            // Solo mostrar si el soporte y la descarga/modelo están disponibles
-            if (availability && availability !== 'no') {
-                langSwitch.classList.add('is-supported');
-
-                // Comprobar si hay un idioma guardado previamente
-                const savedLang = localStorage.getItem('preferredLang');
-                // Si existe y no es el idioma base ('es'), aplicarlo automáticamente
-                if (savedLang && savedLang !== 'es') {
-                    setLanguage(savedLang);
-                }
-            }
-        } catch (err) {
-            console.warn("Translation API no disponible en este navegador:", err);
-        }
-    }
-});
 
 // Traducir atributos (placeholder, title, aria-label, etc.) marcados con data-i18n-attr
 async function translateAttributes(elements) {

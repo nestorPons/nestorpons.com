@@ -1,0 +1,238 @@
+<div class="container">
+  <div class="section-title">
+    <h2 data-i18n>Asistente IA</h2>
+    <p data-i18n>Pregúntame sobre mi perfil, proyectos o servicios.</p>
+  </div>
+
+  <div class="ai-chat" id="ai-chat">
+    <div class="ai-chat-log" id="ai-chat-log" aria-live="polite">
+      <div class="ai-msg ai-msg-bot" data-i18n>Hola, soy el asistente de Néstor. ¿En qué te ayudo?</div>
+    </div>
+    <form class="ai-chat-form" id="ai-chat-form" autocomplete="off">
+      <input type="hidden" id="ai-chat-prev" value="" />
+      <input
+        type="text"
+        id="ai-chat-input"
+        name="message"
+        maxlength="2000"
+        placeholder="Escribe tu mensaje..."
+        data-i18n-attr="placeholder"
+        aria-label="Mensaje"
+        required
+      />
+      <button type="submit" class="btn" id="ai-chat-send" aria-label="Enviar">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+.ai-chat {
+  max-width: 760px;
+  margin: 0 auto;
+  background: rgba(16, 37, 61, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.ai-chat-log {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  min-height: 220px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.ai-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  line-height: 1.5;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.ai-msg-user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #081320;
+  border-bottom-right-radius: 4px;
+}
+.ai-msg-bot {
+  align-self: flex-start;
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+.ai-msg-error {
+  align-self: center;
+  background: transparent;
+  border: 1px solid #e5534b;
+  color: #e5534b;
+  font-size: 0.85rem;
+}
+.ai-msg-typing::after {
+  content: "▍";
+  color: var(--accent);
+  animation: ai-blink 1s steps(1) infinite;
+}
+@keyframes ai-blink { 50% { opacity: 0; } }
+.ai-chat-form {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-top: 1px solid var(--border);
+}
+.ai-chat-form input[type="text"] {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+}
+.ai-chat-form input[type="text"]:focus {
+  border-color: var(--accent);
+}
+.ai-chat-form .btn {
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+.ai-chat-form .btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+</style>
+
+<script>
+(function () {
+  var form = document.getElementById("ai-chat-form");
+  if (!form || form.dataset.bound) return;
+  form.dataset.bound = "true";
+
+  var log = document.getElementById("ai-chat-log");
+  var input = document.getElementById("ai-chat-input");
+  var send = document.getElementById("ai-chat-send");
+  var prev = document.getElementById("ai-chat-prev");
+
+  function addMsg(text, cls) {
+    var div = document.createElement("div");
+    div.className = "ai-msg " + cls;
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  }
+
+  // Idioma activo del sitio (selector ES/EN) -> variable {{idioma}} del prompt.
+  function siteLang() {
+    try {
+      return localStorage.getItem("preferredLang") === "en" ? "en" : "es";
+    } catch (e) {
+      return "es";
+    }
+  }
+
+  // Lee un SSE (fetch POST) y llama a onDelta/onDone/onError.
+  function postStream(message, previousId, onDelta, onDone, onError) {
+    fetch("/api/components/chat/stream", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+      body: JSON.stringify({ message: message, previous_response_id: previousId, lang: siteLang() }),
+    }).then(function (res) {
+      if (!res.ok || !res.body) {
+        // Fallback: intenta respuesta normal (JSON) para mostrar el error del backend.
+        return res.json().catch(function () { return {}; }).then(function (j) {
+          throw new Error(j.error || ("HTTP " + res.status));
+        });
+      }
+      var reader = res.body.getReader();
+      var decoder = new TextDecoder();
+      var buf = "";
+      function pump() {
+        return reader.read().then(function (r) {
+          if (r.done) { onDone(""); return; }
+          buf += decoder.decode(r.value, { stream: true });
+          var parts = buf.split("\n\n");
+          buf = parts.pop();
+          parts.forEach(function (chunk) {
+            chunk.split("\n").forEach(function (line) {
+              line = line.trim();
+              if (line.indexOf("data:") !== 0) return;
+              try {
+                var evt = JSON.parse(line.slice(5).trim());
+                if (evt.delta) onDelta(evt.delta);
+                else if (evt.done) onDone(evt.response_id || "");
+                else if (evt.error) onError(new Error(evt.error));
+              } catch (e) { /* línea parcial, ignorar */ }
+            });
+          });
+          return pump();
+        });
+      }
+      return pump();
+    }).catch(onError);
+  }
+
+  // Fallback sin streaming: POST normal que devuelve {reply, response_id}.
+  function postComplete(message, previousId) {
+    return fetch("/api/components/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: message, previous_response_id: previousId, lang: siteLang() }),
+    }).then(function (res) {
+      return res.json().then(function (j) {
+        if (!res.ok) throw new Error(j.error || ("HTTP " + res.status));
+        return j;
+      });
+    });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var message = input.value.trim();
+    if (!message || send.disabled) return;
+    addMsg(message, "ai-msg-user");
+    input.value = "";
+    send.disabled = true;
+
+    var bot = addMsg("", "ai-msg-bot ai-msg-typing");
+    var full = "";
+    function render(d) {
+      full += d;
+      bot.textContent = full;
+      log.scrollTop = log.scrollHeight;
+    }
+    function finish(id) {
+      bot.classList.remove("ai-msg-typing");
+      if (id) prev.value = id;
+      send.disabled = false;
+      input.focus();
+    }
+    function fail(err) {
+      // Si el stream falla a mitad (full vacío), reintenta sin streaming.
+      if (!full) {
+        postComplete(message, prev.value).then(function (j) {
+          bot.textContent = j.reply || "(sin respuesta)";
+          finish(j.response_id || "");
+        }).catch(function (err2) {
+          bot.remove();
+          addMsg(err2.message || "Error de conexión.", "ai-msg-error");
+          send.disabled = false;
+        });
+      } else {
+        bot.classList.remove("ai-msg-typing");
+        addMsg("Conexión interrumpida.", "ai-msg-error");
+        send.disabled = false;
+      }
+    }
+
+    postStream(message, prev.value, render, finish, fail);
+  });
+})();
+</script>

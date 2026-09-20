@@ -2,11 +2,14 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
     link.addEventListener('click', event => {
 
+        const target = link.getAttribute('href');
+
+        // Ignorar enlaces vacíos o controlados por JS (p. ej. #btn-tour).
+        if (!target || target === '#') return;
+
         event.preventDefault();
 
-        document.querySelector(
-            link.getAttribute('href')
-        ).scrollIntoView({
+        document.querySelector(target)?.scrollIntoView({
             behavior:'smooth'
         });
 
@@ -55,7 +58,7 @@ document.addEventListener('click', (e) => {
 
 window.addEventListener('scroll', function() {
     const menu = document.getElementById('main-menu');
-    
+
     // Si el scroll vertical es mayor a 50px, añade la clase; si no, la quita
     if (window.scrollY > 50) {
         menu.classList.add('scrolled');
