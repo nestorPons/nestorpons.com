@@ -55,3 +55,62 @@
 
   document.body.addEventListener('htmx:afterSwap', renderTurnstile);
 </script>
+<script>
+  // WebMCP: expone el formulario de contacto como herramienta para agentes de IA.
+  // Rellena los campos y lleva el foco al formulario; no envía, no marca la
+  // casilla de privacidad ni completa Turnstile (eso lo hace el usuario).
+  (function () {
+    var mc = document.modelContext;
+    if (!mc || typeof mc.registerTool !== 'function') return;
+    if (window.__contactWebMcpRegistered) return;
+    window.__contactWebMcpRegistered = true;
+
+    mc.registerTool({
+      name: 'fill_contact_form',
+      description: 'Rellena el formulario de contacto con nombre, correo y mensaje, y lleva el foco al formulario para que el usuario lo revise. No envía el formulario ni marca la casilla de privacidad: el usuario debe aceptarla, completar la verificación de seguridad y pulsar Enviar.',
+      inputSchema: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          name: { type: 'string', description: 'Nombre de la persona', maxLength: 120 },
+          email: { type: 'string', format: 'email', description: 'Correo electrónico de contacto', maxLength: 254 },
+          message: { type: 'string', description: 'Mensaje para el formulario de contacto', maxLength: 4000 }
+        },
+        required: ['name', 'email', 'message']
+      },
+      annotations: {
+        readOnlyHint: false,
+        consequentialHint: false,
+        untrustedContentHint: true
+      },
+      execute: async function (input) {
+        var form = document.getElementById('contactForm');
+        var nameField = document.getElementById('name');
+        var emailField = document.getElementById('email');
+        var messageField = document.getElementById('message');
+        if (!form || !nameField || !emailField || !messageField) {
+          return 'El formulario de contacto no está disponible en esta página.';
+        }
+        var name = String(input.name || '').trim();
+        var email = String(input.email || '').trim();
+        var message = String(input.message || '').trim();
+        if (!name || name.length > 120) return 'Falta un nombre válido (1-120 caracteres).';
+        if (!email || email.length > 254) return 'Falta un correo válido (hasta 254 caracteres).';
+        if (!message || message.length > 4000) return 'Falta un mensaje válido (hasta 4000 caracteres).';
+
+        nameField.value = name;
+        emailField.value = email;
+        messageField.value = message;
+        if (!emailField.checkValidity()) return 'El correo proporcionado no es válido.';
+
+        var contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return 'Formulario rellenado. El usuario debe revisar los datos, aceptar la política de privacidad, completar la verificación de seguridad y pulsar Enviar.';
+      }
+    }).catch(function () {});
+  })();
+</script>

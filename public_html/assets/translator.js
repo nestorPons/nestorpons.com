@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Cambiar idioma y actualizar la clase activa de los botones
 async function setLanguage(lang) {
     if (currentLang === lang && currentTranslator) return;
-
+    
     currentLang = lang;
     localStorage.setItem('preferredLang', lang);
     currentTranslator = await getTranslator(lang);
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Solo mostrar si el soporte y la descarga/modelo están disponibles
             if (availability && availability !== 'no') {
                 langSwitch.classList.add('is-supported');
-
+                
                 // Comprobar si hay un idioma guardado previamente
                 const savedLang = localStorage.getItem('preferredLang');
                 // Si existe y no es el idioma base ('es'), aplicarlo automáticamente

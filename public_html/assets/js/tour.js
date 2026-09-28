@@ -20,7 +20,7 @@
             sel: '.hero h2',
             side: 'left',
             title: 'La IA crea conmigo',
-            text: 'Uso la IA como copiloto para acelerar el diseño y el código. La idea, la arquitectura y el criterio son míos: aquí no se construye una IA, se usa.'
+            text: 'Uso la IA como copiloto para acelerar el diseño y el código. La idea, la arquitectura y el criterio son míos: aquí no lo construye una IA, yo uso una IA.'
         },
         {
             sel: '.hero p',
@@ -51,6 +51,12 @@
             side: 'top-left',
             title: 'Habilidades y tecnologías',
             text: 'Tener un mapa mental amplio del ecosistema tecnológico me permite seleccionar e integrar la mejor solución en cada proyecto.'
+        },
+    {
+            sel: '#contactForm',
+            side: 'top-left',
+            title: 'Nuevos WebMCP',
+            text: 'Uso de WebMCP mejorar la comunicación con los modelos de lenguaje.'
         },
         {
             sel: 'footer .footer-tech',

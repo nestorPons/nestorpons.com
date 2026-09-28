@@ -10,7 +10,7 @@ Landing + portfolio personal. Backend mínimo en Go que sirve estático y expone
 - `main.go` — estático (`SERVE_DIR`) + registro `/api/components/*`
 - `components/` — `registry.go` + 1 carpeta por componente (`*.go` + `*.json` + `*.html`)
   - `skills` / `projects` / `experience` — leen `*.json`, renderizan `*.html`
-  - `contact` — `GET` sirve `form.html`, `POST` exige checkbox privacidad + Turnstile y envía por SMTP
+  - `contact` — `GET` sirve `form.html`, `POST` exige checkbox privacidad + Turnstile y envía por SMTP; `form.html` registra la herramienta WebMCP `fill_contact_form` (imperative `document.modelContext.registerTool`) para que agentes rellenen nombre/email/mensaje y lleven el foco al formulario sin tocar privacidad ni Turnstile
   - `header` — `GET` sirve el header (logo + menú + selector idioma) y `GET /api/components/header/translator.js` sirve su JS de traducción; `main.js` usa delegación al inyectarse por HTMX
   - `chat` — `GET` sirve la UI; `POST /api/components/chat` responde JSON `{reply, response_id}`; `POST /api/components/chat/stream` reenvía SSE `data: {"delta"}` … `{"done", "response_id"}`. Proxy a OpenAI Responses API con el prompt almacenado (`OPENAI_PROMPT_ID`); la key nunca sale al frontend
   - Diagnóstico: `GET /api/components/chat/status?message=hola&lang=es` muestra la config efectiva y el JSON exacto enviado a OpenAI (sin secretos)
@@ -55,7 +55,7 @@ docker compose logs -f
 | `OPENAI_PROMPT_ID` | prompt almacenado del chat | `pmpt_6aa9…2acc7` |
 | `OPENAI_PROMPT_VERSION` | versión fija del prompt; vacío = versión default del dashboard | — |
 | `OPENAI_PROMPT_VARIABLES` | JSON con variables `{{...}}` de la plantilla (solo si las usa) | — |
-| `OPENAI_LANG_VAR` | variable adicional que recibe el idioma del visitante; el backend siempre envía también `lang` y `datetime` requeridas por el prompt publicado | `idioma` |
+| `OPENAI_LANG_VAR` | nombre de la variable que recibe el idioma del visitante (`es`/`en` del selector web); vacío = no inyectar | `idioma` |
 
 ## Añadir componente
 

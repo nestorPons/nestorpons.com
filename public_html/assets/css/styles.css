@@ -22,6 +22,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -388,7 +389,7 @@ footer i {
   margin-right: 10px;
   width: 22px;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 /* Icono htmx: marca "</>" + wordmark "htmx", con el mismo tratamiento que

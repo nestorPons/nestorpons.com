@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', refreshLangSwitch);
 // Cambiar idioma y actualizar la clase activa de los botones
 async function setLanguage(lang) {
     if (currentLang === lang && currentTranslator) return;
-
+    
     currentLang = lang;
     localStorage.setItem('preferredLang', lang);
     currentTranslator = await getTranslator(lang);

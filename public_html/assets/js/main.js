@@ -58,7 +58,7 @@ document.addEventListener('click', (e) => {
 
 window.addEventListener('scroll', function() {
     const menu = document.getElementById('main-menu');
-
+    
     // Si el scroll vertical es mayor a 50px, añade la clase; si no, la quita
     if (window.scrollY > 50) {
         menu.classList.add('scrolled');

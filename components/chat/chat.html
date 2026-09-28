@@ -1,7 +1,7 @@
 <div class="container">
   <div class="section-title">
     <h2 data-i18n>Asistente IA</h2>
-    <p data-i18n>Pregúntame sobre mi perfil, proyectos o servicios.</p>
+    <p data-i18n>Pregúntame sobre mi perfil, proyectos o servicios o contacta conmigo directamente.</p>
   </div>
 
   <div class="ai-chat" id="ai-chat">
@@ -138,8 +138,85 @@
     }
   }
 
+  var pendingContactDraft = null;
+
+  function applyContactDraft(draft) {
+    if (!draft || typeof draft !== "object") return false;
+    var name = typeof draft.name === "string" ? draft.name.trim() : "";
+    var email = typeof draft.email === "string" ? draft.email.trim() : "";
+    var message = typeof draft.message === "string" ? draft.message.trim() : "";
+    if (!name || name.length > 120 || !email || email.length > 254 || !message || message.length > 4000) {
+      return false;
+    }
+
+    var contactForm = document.getElementById("contactForm");
+    if (!contactForm) return false;
+    var nameField = contactForm.elements.namedItem("name");
+    var emailField = contactForm.elements.namedItem("email");
+    var messageField = contactForm.elements.namedItem("message");
+    var submitButton = contactForm.querySelector('button[type="submit"]');
+    if (!nameField || !emailField || !messageField || !submitButton) return false;
+
+    nameField.value = name;
+    emailField.value = email;
+    messageField.value = message;
+    if (!emailField.checkValidity()) {
+      emailField.focus();
+      return false;
+    }
+
+    var contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      contactForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    return true;
+  }
+
+  function handleContactDraft(draft) {
+    if (!document.getElementById("contactForm")) {
+      pendingContactDraft = draft;
+      var contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      addMsg(
+        siteLang() === "en"
+          ? "Your contact details are ready. I'll fill in the form as soon as it loads."
+          : "Ya tengo los datos. Rellenaré el formulario en cuanto termine de cargar.",
+        "ai-msg-bot"
+      );
+      return;
+    }
+    var ready = applyContactDraft(draft);
+    var english = siteLang() === "en";
+    if (ready) {
+      addMsg(
+        english
+          ? "I filled in the contact form. Review the details, accept the privacy policy, complete the security check, and press Send when ready."
+          : "He rellenado el formulario de contacto. Revisa los datos, acepta la política de privacidad, completa la verificación de seguridad y pulsa Enviar cuando quieras.",
+        "ai-msg-bot"
+      );
+    } else {
+      addMsg(
+        english
+          ? "I couldn't fill the contact form with those details. Please check the information and try again."
+          : "No pude rellenar el formulario con esos datos. Revisa la información e inténtalo de nuevo.",
+        "ai-msg-error"
+      );
+    }
+  }
+
+  document.body.addEventListener("htmx:afterSwap", function () {
+    if (!pendingContactDraft || !document.getElementById("contactForm")) return;
+    var draft = pendingContactDraft;
+    pendingContactDraft = null;
+    handleContactDraft(draft);
+  });
+
   // Lee un SSE (fetch POST) y llama a onDelta/onDone/onError.
-  function postStream(message, previousId, onDelta, onDone, onError) {
+  function postStream(message, previousId, onDelta, onDraft, onDone, onError) {
     fetch("/api/components/chat/stream", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
@@ -167,6 +244,7 @@
               try {
                 var evt = JSON.parse(line.slice(5).trim());
                 if (evt.delta) onDelta(evt.delta);
+                else if (evt.contact_draft) onDraft(evt.contact_draft);
                 else if (evt.done) onDone(evt.response_id || "");
                 else if (evt.error) onError(new Error(evt.error));
               } catch (e) { /* línea parcial, ignorar */ }
@@ -218,7 +296,12 @@
       // Si el stream falla a mitad (full vacío), reintenta sin streaming.
       if (!full) {
         postComplete(message, prev.value).then(function (j) {
-          bot.textContent = j.reply || "(sin respuesta)";
+          if (j.contact_draft) {
+            bot.textContent = "";
+            handleContactDraft(j.contact_draft);
+          } else {
+            bot.textContent = j.reply || "(sin respuesta)";
+          }
           finish(j.response_id || "");
         }).catch(function (err2) {
           bot.remove();
@@ -232,7 +315,10 @@
       }
     }
 
-    postStream(message, prev.value, render, finish, fail);
+    postStream(message, prev.value, render, function (draft) {
+      bot.textContent = "";
+      handleContactDraft(draft);
+    }, finish, fail);
   });
 })();
 </script>
