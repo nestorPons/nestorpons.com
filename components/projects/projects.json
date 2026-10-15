@@ -1,5 +1,17 @@
 [
   {
+    "id": "aibot-workana",
+    "title": "AIBOT · Radar Workana",
+    "description": "Daemon en Go que rastrea ofertas, filtra por criterios y notifica por Telegram y Discord. Base para propuestas asistidas con LLM.",
+    "url": "https://github.com/nestorPons/workana-bot",
+    "tecs": ["Go", "SQLite", "LLM", "Docker", "Telegram API"],
+    "logo": {
+      "src": "",
+      "alt": "AIBOT",
+      "class": ""
+    }
+  },
+  {
     "id": "liderdisc",
     "title": "Liderdisc",
     "description": "Desarrollo Laravel con test de personalidad, gestión de usuarios y API REST segura.",

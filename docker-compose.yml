@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   nestorgo-landing:
     build: .
@@ -25,6 +23,8 @@ services:
     volumes:
       - ./public_html:/var/www/html
       - ./components:/app/components
+    ports:
+      - "8080:80"
     networks:
       - traefik-net
     labels:
